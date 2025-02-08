@@ -1,0 +1,34 @@
+{% extends 'schooldata/base.html' %}
+{% block title %}Student details{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h2>Classroom Details</h2>
+        <p>Room number: {{classroom.room_number }}</p>
+        <p>Seats: {{classroom.seats }}</p>
+        <p>Beamer: {% if classroom.beamer %} Yes {% else %} No {%endif %}</p>
+        <p>Lab: {{classroom.get_lab_display }}</p>
+
+        <h3>Schedule</h3>
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Classroom</th>
+                                <th>Subject</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for schedule in schedules %}
+                                <tr>
+                                    <td>{{schedule.date|date:"d-m-Y"}}</td>
+                                    <td>{{schedule.time|time:"H:i"}} - {{schedule.end_time|time:"H:i"}}</td>
+                                    <td>{{schedule.class_room.room_number}}</td>
+                                    <td>{{schedule.subject.name}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+    </div>
+{% endblock %}

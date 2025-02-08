@@ -1,0 +1,43 @@
+{% extends 'schooldata/base.html' %}
+{% block title %}Subject details{% endblock %}
+
+{% block content %}
+<div class="content">
+        <h2>{{subject}}</h2>
+        <h3>Description</h3>
+        {{subject.description}}
+        <h3>Teachers</h3>
+            {% for teacher in teachers %}
+                <li><a href="{% url 'teacher-details' teacher.id %}" class="data-link">{{ teacher.first_name }} {{ teacher.last_name }}</a></li>
+            {% empty %}
+                <li>No subjects available.</li>
+            {% endfor %}
+        <h3>Students</h3>
+            {% for student in students %}
+                <li><a href="{% url 'student-details' student.id %}" class="data-link">{{ student.first_name }} {{ student.last_name }}</a></li>
+            {% empty %}
+                <li>No subjects available.</li>
+            {% endfor %}
+        <h3>Scheduled classes</h3>
+        <table class="schedule-table">
+                <thead>
+                        <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Classroom</th>
+                                <th>Teacher</th>
+                        </tr>
+                </thead>
+                <tbody>
+                    {% for schedule in schedules %}
+                        <tr>
+                                <td>{{schedule.date|date:"d-m-Y" }}</td>
+                                <td>{{schedule.time|time:"H:i"}}-{{schedule.end_time|time:"H:i"}}</td>
+                                <td>{{schedule.class_room.room_number}}</td>
+                                <td><a href="{% url 'teacher-details' schedule.teacher.id %}" class="data-link">{{schedule.teacher.first_name}} {{schedule.teacher.last_name}}</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
+</div>
+{% endblock %}

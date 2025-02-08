@@ -1,0 +1,142 @@
+body {
+    margin: 0;
+}
+.navbar{
+    display: flex;
+    flex-direction: row;
+    background-color: #b9dbdc;
+    padding: 10px;
+    margin-bottom: 30px;
+    justify-content: space-between;
+}
+.header-title{
+    display: flex;
+    flex-direction: row;
+}
+.login-logout{
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.login-logout p{
+    margin-right: 5px;
+}
+.navbar ul {
+    display: flex;
+    flex-direction: row;
+}
+.navbar ul li {
+    margin-right: 10px;
+    list-style: none;
+}
+.navbar ul li a{
+    margin-right: 20px;
+    text-decoration: none;
+    text-effect: none;
+    color: #0b2323;
+    padding: 10px 15px;
+    background-color: #82c3c3;
+    border-radius: 5px;
+}
+.navbar ul li a:hover{
+    color: #b9f1f1;
+    background-color: #40b1b1;
+}
+
+.content{
+    width: 70%;
+    margin: auto;
+    margin-bottom: 100px;
+}
+/* --------------------------------------------------------
+                         detail lists
+ ---------------------------------------------------------- */
+.detail-list li {
+    list-style: none;
+}
+.detail-list li a{
+    text-decoration: none;
+    text-effect: none;
+    color: #1c5961;
+}
+.detail-list li a:hover{
+    color: #39abba;
+}
+/* --------------------------------------------------------
+                         pagination
+ ---------------------------------------------------------- */
+.pagination{
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.pagination a{
+    text-decoration: none;
+    margin: 0 10px;
+    color: #515151;
+}
+.pagination a:hover{
+    color: #a6a6a6;
+}
+.pagination span{
+    color: #376c73;
+}
+/* --------------------------------------------------------
+
+ ---------------------------------------------------------- */
+.student-grades-table{
+    width: 50%;
+    border-collapse: collapse;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #a6a6a6;
+
+}
+.student-grades-table th{
+    width: 50%;
+    text-align: left;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #a6a6a6;
+    padding: 5px;
+}
+.student-grades-table td{
+    width: 50%;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e1e1e1;
+    padding: 5px;
+}
+
+.data-link{
+    text-decoration: none;
+    text-effect: none;
+    color: #1c5961;
+}
+.data-link:hover{
+    color: #39abba;
+}
+.schedule-table{
+    width: 50%;
+    border-collapse: collapse;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #a6a6a6;
+}
+.schedule-table th{
+    text-align: center;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #a6a6a6;
+    padding: 5px;
+}
+.schedule-table td{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #e1e1e1;
+    padding: 5px;
+    text-align: center;
+}

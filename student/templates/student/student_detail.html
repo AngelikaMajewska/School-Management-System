@@ -1,0 +1,67 @@
+{% extends 'schooldata/base.html' %}
+{% block title %}Student details{% endblock %}
+
+{% block content %}
+<div class="content">
+        <h2>{{student.first_name }} {{student.last_name }}</h2>
+        ID {{student.id }} <br>
+        Date of Birth: {{student.date_of_birth }}<br>
+        Expected graduation: {{student.expected_graduation }}<br>
+        GPA: {{student.gpa}}<br>
+
+        <h3>Subjects</h3>
+            {% for subject in subjects %}
+                <li><a href="{% url 'subjects-details' subject.id %}" class="data-link">{{ subject.name }}</a></li>
+            {% empty %}
+                <li>No subjects available.</li>
+            {% endfor %}
+        <h3>Grades</h3>
+        <table class="student-grades-table">
+            <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Grades(weight)</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for subject, grades in grades_by_subject.items %}
+                    <tr>
+                        <td>{{ subject.name }}</td>
+                        <td>
+                            {% for grade in grades %}
+                                {{ grade.grade }}({{grade.weight}}){{grade.date_given}}{% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Scheduled classes</h3>
+        {% for schedule in student.schedules %}
+                {{ schedule }}
+        {% endfor %}
+        <h3>Schedule</h3>
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Classroom</th>
+                        <th>Subject</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for schedule in student.schedules %}
+                        <tr>
+                            <td>{{schedule.date|date:"d-m-Y"}}</td>
+                            <td>{{schedule.time|time:"H:i"}} - {{schedule.end_time|time:"H:i"}}</td>
+                            <td>{{schedule.class_room.room_number}}</td>
+                            <td>{{schedule.subject.name}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+</div>
+{% endblock %}

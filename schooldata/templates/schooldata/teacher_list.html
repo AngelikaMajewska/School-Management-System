@@ -1,0 +1,29 @@
+{% extends 'schooldata/base.html' %}
+{% block title %}Teacher list{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <h2>Teachers list</h2>
+        <ul class="detail-list">
+          {% for teacher in teachers %}
+              <li><a href="{% url 'teacher-details' teacher.id %}" >{{teacher}}</a></li>
+          {% endfor %}
+        </ul>
+
+        {% if is_paginated %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

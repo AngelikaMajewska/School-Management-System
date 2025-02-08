@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <navbar class="navbar">
+        <div class="header-title">
+            <p>School Management System</p>
+            <ul>
+                <li><a href="{% url 'students' %}" class="nav-link">Students</a></li>
+                <li><a href="{% url 'teachers' %}" class="nav-link">Teachers</a> </li>
+                <li><a href="{% url 'subjects' %}" class="nav-link">Subjects</a></li>
+                {% if "Teacher" in request.user.groups.all|join:", " %}
+                    <li><a href="{% url 'classrooms' %}" class="nav-link">Classrooms</a></li>
+                {% endif %}
+<!--grade deleted for now-->
+                {% if "Teacher" in request.user.groups.all|join:", " %}
+                    <li><a href="{% url 'schedule' %}" class="nav-link">Schedule</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="login-logout">
+            {% if user.is_authenticated %}
+            <p>Witaj, {{ user.username }}!</p>
+            <form id="logout-form" method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+            {% else %}
+            <p>Nie jesteś zalogowany.</p>
+            <form id="login-form" method="get" action="{% url 'login' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Login</button>
+            </form>
+            {% endif %}
+<!--            {% if "Teacher" in request.user.groups.all|join:", " %}-->
+<!--                    <li><a href="{% url 'my-schedule' user.id %}" class="nav-link">My schedule</a></li>-->
+<!--            {% endif %}-->
+<!--            nie mam user.id-->
+        </div>
+
+    </navbar>
+
+{% block content %} {% endblock %}
+</body>
+</html>

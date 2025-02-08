@@ -1,0 +1,39 @@
+{% extends 'schooldata/base.html' %}
+{% block title %}Teacher details{% endblock %}
+
+{% block content %}
+        <div class="content">
+                <h2>{{teacher}}</h2>
+
+                <h3>Qualifications</h3>
+                {{teacher.qualifications}}
+                <h3>Subjects</h3>
+                    {% for subject in subjects %}
+                        <li><a href="{% url 'subjects-details' subject.id %}" class="data-link">{{ subject.name }}</a></li>
+                    {% empty %}
+                        <li>No subjects available.</li>
+                    {% endfor %}
+                 <h3>Schedule</h3>
+                    <table class="schedule-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Classroom</th>
+                                <th>Subject</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for schedule in schedules %}
+                                <tr>
+                                    <td>{{schedule.date|date:"d-m-Y"}}</td>
+                                    <td>{{schedule.time|time:"H:i"}} - {{schedule.end_time|time:"H:i"}}</td>
+                                    <td>{{schedule.class_room.room_number}}</td>
+                                    <td>{{schedule.subject.name}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+        </div>
+{% endblock %}

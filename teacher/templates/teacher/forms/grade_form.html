@@ -1,0 +1,13 @@
+{% extends 'schooldata/base.html' %}
+{% block title %}Add grade{% endblock %}
+
+{% block content %}
+    <div class="content">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+    <!--        <input type="hidden" name="next" value="{{ request.GET.next }}">-->
+            <button type="submit">Add</button>
+        </form>
+    </div>
+{% endblock %}
