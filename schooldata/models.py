@@ -6,7 +6,7 @@ from django.db.models import CheckConstraint, Index, Q, Sum, F
 from datetime import datetime, timedelta
 
 class Student(models.Model):
-    id = models.IntegerField(primary_key=True, unique=True, editable=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     date_of_birth = models.DateField()
@@ -50,7 +50,6 @@ class Teacher(models.Model):
     qualifications = models.TextField(null=False, blank=False)
     subjects = models.ManyToManyField("Subject", related_name="teachers_of_subject")
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, blank=False,default=1)
-
 
     class Meta:
         ordering = ['last_name', 'first_name']
