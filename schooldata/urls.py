@@ -1,6 +1,4 @@
-from django.contrib import admin
-from django.contrib.auth.views import LogoutView, LoginView
-from django.urls import path, include
+from django.urls import path
 
 from .views import (TeacherListView, TeacherDetailView, SubjectListView, SubjectDetailView)
 
