@@ -91,7 +91,8 @@ LAB = [
     (5, 'Mathematics'),
     (6, 'Visual arts'),
     (7, 'Music'),
-    (8, 'Other'),
+    (8, 'PE'),
+    (9, 'Computer Science'),
 ]
 
 class ClassRoom(models.Model):

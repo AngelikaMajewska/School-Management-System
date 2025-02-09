@@ -1,5 +1,6 @@
-from datetime import date
+from datetime import date, timedelta
 
+from django.db.models import Min
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
@@ -28,14 +29,15 @@ class StudentDetailView(DetailView): # poprawić tabelę z ocenami na podstawie 
     #         )
     #     )
     def get_context_data(self, **kwargs):
+        today = date.today()
         context = super().get_context_data(**kwargs)
         student = self.get_object()
         subjects = student.subjects.all()
         context['subjects'] = subjects
         context['grades'] = Grade.objects.filter(student=student)
-        context['schedules'] = Schedule.objects.filter(subject__students=student).select_related('class_room', 'teacher')
+        context['schedules'] = (Schedule.objects.filter(subject__students=student).filter(date__lte=today+timedelta(days=7))
+                                .select_related('class_room', 'teacher').order_by('date','time'))
 
-        today = date.today()
         school_start = date(today.year - 1, 9, 1) if today.month <= 7 else date(today.year, 9, 1)
 
         # Grupowanie ocen według przedmiotów i lat szkolnych

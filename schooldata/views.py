@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import PermissionRequiredMixin
 
@@ -18,14 +20,17 @@ class TeacherDetailView(DetailView):
     template_name = "schooldata/teacher_detail.html"
     context_object_name = "teacher"
 
+
     def get_queryset(self):
         return Teacher.objects.prefetch_related("subjects_taught")
 
     def get_context_data(self, **kwargs):
+        today = date.today()
         context = super().get_context_data(**kwargs)
         teacher = self.object
         context['subjects'] = teacher.subjects_taught.all()
-        context['schedules'] = (Schedule.objects.filter(teacher=teacher).select_related("class_room", "subject").order_by("date"))
+        context['schedules'] = (Schedule.objects.filter(teacher=teacher).filter(date__lte=today+timedelta(days=7))
+                                .select_related("class_room", "subject").order_by("date", "time"))
         return context
 
 class SubjectListView(ListView):
@@ -43,6 +48,7 @@ class SubjectDetailView(DetailView):
         return Subject.objects.prefetch_related("students", "teachers")
 
     def get_context_data(self, **kwargs):
+        today = date.today()
         context = super().get_context_data(**kwargs)
         subject = self.object
 
@@ -51,7 +57,7 @@ class SubjectDetailView(DetailView):
         context['students'] = subject.students.values("id", "first_name", "last_name")
 
         context['schedules'] = (
-            Schedule.objects.filter(subject=subject)
+            Schedule.objects.filter(subject=subject).filter(date__lte=today+timedelta(days=7))
             .select_related("teacher", "class_room").order_by('date')
         )
         return context

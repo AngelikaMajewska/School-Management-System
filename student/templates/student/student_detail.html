@@ -37,11 +37,7 @@
             </tbody>
         </table>
 
-        <h3>Scheduled classes</h3>
-        {% for schedule in student.schedules %}
-                {{ schedule }}
-        {% endfor %}
-        <h3>Schedule</h3>
+        <h3>Schedule for next 7 days</h3>
             <table class="schedule-table">
                 <thead>
                     <tr>
@@ -52,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for schedule in student.schedules %}
+                    {% for schedule in schedules %}
                         <tr>
                             <td>{{schedule.date|date:"d-m-Y"}}</td>
                             <td>{{schedule.time|time:"H:i"}} - {{schedule.end_time|time:"H:i"}}</td>
