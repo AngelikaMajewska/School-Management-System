@@ -9,32 +9,41 @@ class GradeForm(forms.ModelForm):
         model = Grade
         fields = ['student', 'subject', 'grade', 'weight','teacher']
 
-    # def save(self, commit=True):
-    #     instance = super().save(commit=False)  # Tworzymy obiekt, ale jeszcze nie zapisujemy
-    #     teacher_id = self.cleaned_data['teacher'].id  # Pobieramy ID nauczyciela
-    #     instance.teacher_id = teacher_id  # Przypisujemy ID nauczyciela do obiektu
-    #     if commit:
-    #         instance.save()
-    #     return instance
-
 class ScheduleForm(forms.ModelForm):
     class Meta:
         model = Schedule
-        fields = ['subject', 'teacher', 'class_room', 'date','time', 'duration']
+        fields = ['subject', 'teacher', 'class_room', 'date','time','end_time','recurring','end_date']
         widgets = {
             'date': forms.DateInput(attrs={'type': 'date'}),
             'time': forms.TimeInput(attrs={'type': 'time'}),
-            'duration': forms.NumberInput(attrs={'type': 'number', 'step': '15', 'min': '15', 'max': '180','value': '15'}),
+            'end_time': forms.TimeInput(attrs={'type': 'time'}),
+            'recurring': forms.CheckboxInput(attrs={'type': 'checkbox'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
-    def clean(self):
-        cleaned_data = super().clean()
-        duration = int(self.data.get('duration'))
-        if duration > 59:
-            hours = duration/60
-            minutes = duration%60
-            cleaned_data['duration'] = timedelta(hours=hours, minutes=minutes)
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+
+        if instance.recurring:
+            start_date = instance.date
+            end_date = instance.end_date  # Zmienna, która powinna zawierać datę zakończenia (możesz dodać do formularza pole końcowej daty)
+            if not end_date:
+                raise ValueError("Please specify the end date for recurring schedules.")
+            current_date = start_date
+            while current_date <= end_date:
+                new_schedule = Schedule(
+                    class_room=instance.class_room,
+                    teacher=instance.teacher,
+                    subject=instance.subject,
+                    date=current_date,
+                    time=instance.time,
+                    end_time=instance.end_time,
+                    recurring=False  # Ustawiamy to jako pojedynczy zapis, nie powtarzający się
+                )
+                new_schedule.save()
+                current_date += timedelta(weeks=1)
+            return new_schedule
         else:
-            minutes = duration % 60
-            cleaned_data['duration'] = timedelta(minutes=minutes)
-        return cleaned_data
+            if commit:
+                instance.save()
+            return instance

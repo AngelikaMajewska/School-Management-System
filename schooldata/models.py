@@ -72,7 +72,6 @@ class Subject(models.Model):
     description = models.TextField(null=False, blank=False)
     students = models.ManyToManyField(Student, related_name="subjects")
     teachers = models.ManyToManyField(Teacher, related_name="subjects_taught")
-    regular = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ('name', 'level')
@@ -120,8 +119,9 @@ class Schedule(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     date = models.DateField(null=False, blank=False)
     time = models.TimeField(null=False, blank=False)
-    duration = models.DurationField(null=False, blank=False)
     end_time = models.TimeField(null=True, blank=True)
+    recurring = models.BooleanField(default=False)
+    end_date = models.DateField(null=True, blank=True)
 
     class Meta:
         unique_together = ('class_room', 'date','time')
@@ -129,21 +129,9 @@ class Schedule(models.Model):
         indexes = [
             Index(fields=['class_room', 'date']),
         ]
-        constraints = [
-            CheckConstraint(
-                check=Q(duration__gte=timedelta(minutes=0)) & Q(duration__lte=timedelta(minutes=180)),
-                name='duration_within_range'
-            )
-        ]
-
-    def save(self, *args, **kwargs):
-        start_datetime = datetime.combine(self.date, self.time)
-        end_datetime = start_datetime + self.duration
-        self.end_time = end_datetime.time()
-        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.class_room.room_number}, {self.date} {self.time}-{self.end_time}, {self.teacher}"
+        return f"Room {self.class_room.room_number}, {self.date} {self.time}-{self.end_time}, {self.teacher}"
 
 WEIGHTS = [
     (0, 'Unknown'),
