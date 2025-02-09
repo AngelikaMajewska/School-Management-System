@@ -49,7 +49,7 @@ class Teacher(models.Model):
     hired = models.DateField(null=False, blank=False)
     qualifications = models.TextField(null=False, blank=False)
     subjects = models.ManyToManyField("Subject", related_name="teachers_of_subject")
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=False, blank=False,default=1)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
     class Meta:
         ordering = ['last_name', 'first_name']
