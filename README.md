@@ -1,4 +1,4 @@
-# School Management System
+# Work in Progress: School Management System
 
 ## Project Description
 This project is a Django-based School Management System designed to manage students, teachers, subjects, classrooms, and schedules efficiently. The system provides an intuitive interface for administrators, teachers, and students to interact with academic data.
