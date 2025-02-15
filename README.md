@@ -12,6 +12,13 @@ This project is a Django-based School Management System designed to manage stude
 - **GPA Calculation:** Automatically update student GPA upon grade modifications.
 - **Authentication & Permissions:** Secure access control with user groups (Admin, Teacher, Student).
 - **Dynamic Views:** List and detail views for teachers, students, subjects, and schedules.
+- **Custom forms** for user authentication and data input, including a login form with validation.
+
+## Usage
+- Admins can manage students, teachers, subjects, and schedules.
+- Teachers can view their assigned schedules and update student grades.
+- Students can access their schedules and check their academic progress.
+- The login system ensures secure access based on user roles.
 
 This project aims to simplify school operations through automation and role-based access control.
 
